@@ -36,10 +36,10 @@ function juegoAdivinaNumero() {
     }
 
     // Obtener los parámetros del juego según la dificultad elegida
-    let { min, max, intentos } = definirNivel(dificultadElegida);
+    const { min, max, intentos } = definirNivel(dificultadElegida);
 
     // Generar número secreto aleatorio
-    let numeroSecreto = Math.floor(Math.random() * (max - min + 1)) + min;
+    const numeroSecreto = Math.floor(Math.random() * (max - min + 1)) + min;
 
     // Ciclo principal del juego
     for (let i = 0; i < intentos; i++) {
