@@ -41,6 +41,9 @@ function juegoAdivinaNumero() {
     // Generar número secreto aleatorio
     const numeroSecreto = Math.floor(Math.random() * (max - min + 1)) + min;
 
+    // Mensaje inicial de bienvenida
+    alert(`¡Bienvenido al juego Adivina el número mágico! Tu objetivo es adivinar el número secreto que he pensado en un rango de ${min} a ${max}. Tienes ${intentos} intentos para lograrlo.`);
+
     // Ciclo principal del juego
     for (let i = 0; i < intentos; i++) {
         // Obtener intento del usuario
@@ -57,7 +60,7 @@ function juegoAdivinaNumero() {
 
         // Mostrar mensaje según el resultado
         let mensaje = procesarResultado(resultado, numeroSecreto, intentos - i - 1, min, max);
-        console.log(mensaje);
+        alert(mensaje);
 
         // Salir del ciclo si se adivina el número
         if (resultado === 0) {
@@ -66,7 +69,7 @@ function juegoAdivinaNumero() {
     }
 
     // Si se agotan los intentos sin adivinar el número
-    console.log("Te quedaste sin intentos. El número secreto era:", numeroSecreto);
+    alert(`¡Te quedaste sin intentos! El número secreto era: ${numeroSecreto}`);
 }
 
 function compararNumeros(intento, numeroSecreto) {
@@ -79,6 +82,19 @@ function compararNumeros(intento, numeroSecreto) {
     }
 }
 
+function generarPistaDigitos(numeroSecreto) {
+    let cantidadDigitos = numeroSecreto.toString().length;
+    return `El número secreto tiene ${cantidadDigitos} dígitos.`;
+}
+
+function generarPistaParImpar(numeroSecreto) {
+    if (numeroSecreto % 2 === 0) {
+        return "El número secreto es par.";
+    } else {
+        return "El número secreto es impar.";
+    }
+}
+
 function procesarResultado(resultado, numeroSecreto, intentosRestantes, min, max) {
     let mensaje = "";
     switch (resultado) {
@@ -86,17 +102,22 @@ function procesarResultado(resultado, numeroSecreto, intentosRestantes, min, max
             mensaje = "Tu intento es menor que el número secreto.";
             // Incluir pista de dígitos solo en niveles medio y difícil
             if (intentosRestantes > 1 && (min <= 10 && max >= 100)) {
-                mensaje += ` Pista: El número secreto tiene ${numeroSecreto.toString().length} dígitos.`;
+                if (confirm("¿Deseas una pista? (Sí/No)")) {
+                    mensaje += ` ${generarPistaDigitos(numeroSecreto)}`;
+                }
             }
             break;
         case 0:
             mensaje = "¡Felicidades! Adivinaste el número secreto.";
+            console.log(`¡Felicidades! El usuario adivinó el número secreto: ${numeroSecreto}.`); // Registro en la consola
             break;
         case 1:
             mensaje = "Tu intento es mayor que el número secreto.";
             // Incluir pista de par/impar solo en niveles medio y difícil
             if (intentosRestantes > 1 && (min <= 10 && max >= 100)) {
-                mensaje += ` Pista: El número secreto es ${numeroSecreto % 2 === 0 ? "par" : "impar"}.`;
+                if (confirm("¿Deseas una pista? (Sí/No)")) {
+                    mensaje += ` ${generarPistaParImpar(numeroSecreto)}`;
+                }
             }
             break;
     }
